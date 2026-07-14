@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Hải — Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0b0d15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            padding: 12px;
+        }
+
+        /* ===== MENU CARD ===== */
+        .menu {
+            max-width: 420px;
+            width: 100%;
+            background: #131720;
+            border-radius: 28px;
+            padding: 18px 16px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 12px;
+        }
+        .header .back {
+            color: #8892b0;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .header .title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .header .title i {
+            color: var(--accent, #00e5ff);
+            margin-right: 6px;
+        }
+        .header .status {
+            color: #00e676;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .header .status i {
+            font-size: 7px;
+        }
+
+        /* ===== HP BAR ===== */
+        .hp-bar {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 8px 14px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .hp-bar .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #8892b0;
+        }
+        .hp-bar .value {
+            font-size: 13px;
+            font-weight: 700;
+            color: #00e676;
+        }
+
+        /* ===== TABS ===== */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 40px;
+            padding: 4px;
+            margin-bottom: 14px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 32px;
+            font-weight: 700;
+            font-size: 12px;
+            color: #8892b0;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .tab.active {
+            background: var(--accent, #00e5ff);
+            color: #0b0d15;
+            box-shadow: 0 0 20px var(--accent, #00e5ff);
+        }
+        .tab i {
+            margin-right: 4px;
+        }
+
+        /* ===== PANELS ===== */
+        .panel {
+            display: none;
+            animation: fade 0.2s ease;
+        }
+        .panel.active {
+            display: block;
+        }
+        @keyframes fade {
+            0% {
+                opacity: 0.3;
+                transform: translateY(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ccd6f6;
+            margin: 14px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title i {
+            color: var(--accent, #00e5ff);
+            font-size: 14px;
+        }
+        .section-title .sub {
+            font-weight: 400;
+            font-size: 11px;
+            color: #8892b0;
+        }
+
+        /* ===== SETTING ROW ===== */
+        .setting {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .setting:last-child {
+            border-bottom: none;
+        }
+        .setting .label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #ccd6f6;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .setting .label i {
+            color: var(--accent, #00e5ff);
+            width: 18px;
+            font-size: 13px;
+        }
+        .setting .label .check {
+            color: #00e676;
+            font-size: 12px;
+        }
+        .setting .label .warn {
+            color: #ff1744;
+            font-size: 11px;
+            font-weight: 400;
+        }
+        .setting .value-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 2px 12px;
+            border-radius: 16px;
+        }
+
+        /* ===== TOGGLE ===== */
+        .toggle {
+            width: 38px;
+            height: 20px;
+            background: #1e2438;
+            border-radius: 40px;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid #2a314a;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .toggle.active {
+            background: var(--accent, #00e5ff);
+            border-color: var(--accent, #00e5ff);
+            box-shadow: 0 0 14px var(--accent, #00e5ff);
+        }
+        .toggle .dot {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .toggle.active .dot {
+            left: 20px;
+            background: #0b0d15;
+        }
+
+        /* ===== CHECKBOX (dạng tick) ===== */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .checkbox-item {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 3px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #ccd6f6;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .checkbox-item.active {
+            background: var(--accent, #00e5ff);
+            color: #0b0d15;
+            border-color: var(--accent, #00e5ff);
+            box-shadow: 0 0 12px var(--accent, #00e5ff);
+        }
+        .checkbox-item i {
+            font-size: 10px;
+        }
+
+        /* ===== SELECT ===== */
+        select {
+            background: #1e2438;
+            border: 1px solid #2a314a;
+            border-radius: 16px;
+            padding: 4px 12px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+        select:focus {
+            border-color: var(--accent, #00e5ff);
+        }
+
+        /* ===== SLIDER ===== */
+        .slider-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            margin-left: 8px;
+        }
+        .slider-wrap input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            background: #1e2438;
+            height: 3px;
+            border-radius: 10px;
+            outline: none;
+        }
+        .slider-wrap input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: var(--accent, #00e5ff);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent, #00e5ff);
+        }
+        .slider-val {
+            min-width: 40px;
+            text-align: right;
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .slider-val .unit {
+            color: #8892b0;
+            font-weight: 400;
+            font-size: 11px;
+            margin-left: 2px;
+        }
+
+        /* ===== COLOR PICKER ===== */
+        .color-picker {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 6px 0 4px;
+        }
+        .color-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .color-dot:hover {
+            transform: scale(1.1);
+        }
+        .color-dot.active {
+            border-color: #fff;
+            box-shadow: 0 0 16px currentColor;
+        }
+
+        /* ===== INFO TEXT (Settings) ===== */
+        .info-text {
+            font-size: 11px;
+            color: #8892b0;
+            line-height: 1.5;
+            padding: 6px 0 2px;
+            font-family: 'Inter', monospace;
+        }
+        .info-text .highlight {
+            color: var(--accent, #00e5ff);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 400px) {
+            .menu {
+                padding: 14px 12px 18px;
+            }
+            .tab {
+                font-size: 10px;
+                padding: 6px 0;
+            }
+            .tab i {
+                margin-right: 2px;
+            }
+            .setting .label {
+                font-size: 12px;
+            }
+            .setting {
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            .slider-wrap {
+                margin-left: 0;
+                width: 100%;
+            }
+            .header .title {
+                font-size: 15px;
+            }
+        }
+        @media (min-width: 500px) {
+            .menu {
+                max-width: 480px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu" id="menuContainer">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="back"><i class="fas fa-arrow-left"></i></div>
+        <div class="title"><i class="fas fa-crosshairs"></i> Hải</div>
+        <div class="status"><i class="fas fa-circle"></i> Active</div>
+    </div>
+
+    <!-- HP BAR -->
+    <div class="hp-bar">
+        <span class="label"><i class="fas fa-heartbeat"></i> HP</span>
+        <span class="value">200/200</span>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" data-tab="aimbot"><i class="fas fa-crosshairs"></i> Aimbot</button>
+        <button class="tab" data-tab="visuals"><i class="fas fa-eye"></i> Visuals</button>
+        <button class="tab" data-tab="misc"><i class="fas fa-cogs"></i> Misc</button>
+        <button class="tab" data-tab="settings"><i class="fas fa-sliders-h"></i> Settings</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PANEL AIMBOT (Ảnh 1) -->
+    <!-- ============================================================ -->
+    <div class="panel active" id="panel-aimbot">
+        <!-- AIMBOT -->
+        <div class="setting">
+            <span class="label"><i class="fas fa-bullseye"></i> Aimbot</span>
+            <div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div>
+        </div>
+        <div class="setting">
+            <span class="label"><i class="fas fa-flag"></i> Aiming method</span>
+            <select>
+                <option>Silent aimbot</option>
+                <option>Normal aimbot</option>
+                <option>Triggerbot</option>
+            </select>
+        </div>
+        <div class="setting">
+            <span class="label"><i class="fas fa-circle"></i> Show FOV circle</span>
+            <div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div>
+        </div>
+
+        <!-- MISC -->
+        <div class="section-title"><i class="fas fa-ellipsis-h"></i> Misc</div>
+        <div class="setting">
+            <span class="label"><i class="fas fa-user-slash"></i> Ignore types</span>
+            <div class="checkbox-group">
+                <span class="checkbox-item active" onclick="toggleCheck(this)"><i class="fas fa-check"></i> Invisible</span>
+                <span class="checkbox-item active" onclick="toggleCheck(this)"><i class="fas fa-check"></i> Knocked</span>
+            </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="section-title"><i class="fas fa-sliders-h"></i> Settings</div>
+        <div class="setting">
+            <span class="label"><i class="fas fa-user-injured"></i> Hitbox</span>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <select>
+                    <option selected>Head</option>
+                    <option>Neck</option>
+                    <option>Chest</option>
+                    <option>Body</option>
+                </select>
+                <span class="checkbox-item active" onclick="toggleCheck(this)" style="font-size:11px;padding:2px 10px;"><i class="fas fa-random"></i> Randomized</span>
+            </div>
+        </div>
+        <div class="setting">
+            <span class="label"><i class="fas fa-arrow-up"></i> Target priority</span>
+            <select>
+                <option selected>Closest to crosshair</option>
+                <option>Closest distance</option>
+                <option>Lowest health</option>
+                <option>Highest threat</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PANEL VISUALS (Ảnh 2) -->
+    <!-- ============================================================ -->
+    <div class="panel" id="panel-visuals">
+        <div class="section-title"><i class="fas fa-eye"></i> Visuals <span class="sub">Visual improvements.</span></div>
+
+        <div class="section-title" style="font-size:12px;margin-top:6px;"><i class="fas fa-user"></i> Enemy ESP</div>
+        <div class="setting"><span class="label"><i class="fas fa-vector-square"></i> Box</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-heartbeat"></i> Health</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-font"></i> Nickname</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-ruler"></i> Distance</span><div class="toggle active" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-arrows-alt-h"></i> Skeleton</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-fire"></i> Line fire material</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+
+        <div class="section-title" style="font-size:12px;margin-top:10px;"><i class="fas fa-users"></i> Nearby enemies count</div>
+        <div class="setting">
+            <span class="label"><i class="fas fa-palette"></i> Counter text color</span>
+            <input type="color" value="#00e5ff" style="background:transparent;border:none;width:32px;height:28px;cursor:pointer;" />
+        </div>
+        <div class="setting">
+            <span class="label"><i class="fas fa-font"></i> Counter text size</span>
+            <div style="display:flex;align-items:center;gap:8px;flex:1;margin-left:8px;">
+                <input type="range" min="10" max="40" value="25" style="flex:1;-webkit-appearance:none;background:#1e2438;height:3px;border-radius:10px;outline:none;" />
+                <span class="slider-val">25.0<span class="unit">px</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PANEL MISC (Ảnh 3) -->
+    <!-- ============================================================ -->
+    <div class="panel" id="panel-misc">
+        <div class="section-title"><i class="fas fa-cogs"></i> Misc <span class="sub">Game enhancements.</span></div>
+        <div style="background:rgba(255,23,68,0.08);border-radius:12px;padding:8px 12px;margin-bottom:10px;border-left:3px solid #ff1744;">
+            <span style="font-size:11px;color:#ff1744;font-weight:600;">⚠️ These features are only for fun and may be unsafe. Use them at your own risk!</span>
+        </div>
+
+        <div class="setting"><span class="label"><i class="fas fa-cloud"></i> No fog</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-crosshairs"></i> No weapon spread</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-bolt"></i> Instant loot</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-sync-alt"></i> Inverted IceWall rotation</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-arrows-alt-h"></i> Aspect ratio</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-fighter-jet"></i> Auto-fire</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PANEL SETTINGS (Ảnh 4) -->
+    <!-- ============================================================ -->
+    <div class="panel" id="panel-settings">
+        <div class="section-title"><i class="fas fa-sliders-h"></i> Settings <span class="sub">Configure options.</span></div>
+
+        <div class="info-text">
+            1.53 (f98165167e9000a6) (12739 | 7fffffbffff)<br />
+            (57|6|14|15|10|8|6) | Last Heartbeat Result: 0
+        </div>
+
+        <div class="setting" style="border-bottom:none;padding-bottom:4px;">
+            <span class="label"><i class="fas fa-palette"></i> Accent color</span>
+            <div class="color-picker" id="colorPicker">
+                <div class="color-dot active" style="background:#00e5ff;color:#00e5ff;" data-color="#00e5ff" onclick="setTheme(this)"></div>
+                <div class="color-dot" style="background:#ff3d00;color:#ff3d00;" data-color="#ff3d00" onclick="setTheme(this)"></div>
+                <div class="color-dot" style="background:#d500f9;color:#d500f9;" data-color="#d500f9" onclick="setTheme(this)"></div>
+                <div class="color-dot" style="background:#76ff03;color:#76ff03;" data-color="#76ff03" onclick="setTheme(this)"></div>
+                <div class="color-dot" style="background:#ffea00;color:#ffea00;" data-color="#ffea00" onclick="setTheme(this)"></div>
+                <div class="color-dot" style="background:#ff6f00;color:#ff6f00;" data-color="#ff6f00" onclick="setTheme(this)"></div>
+                <div class="color-dot" style="background:#ffffff;color:#ffffff;" data-color="#ffffff" onclick="setTheme(this)"></div>
+            </div>
+        </div>
+
+        <div class="info-text" style="margin-top:4px;">
+            <span class="highlight">Subscription time left:</span> 24 days, 3 hours, 16 minutes, 3 seconds<br />
+            Build at Jan 20 2026 22:05:22 - 1.7.1 for game version 1.120.X
+        </div>
+
+        <div class="setting"><span class="label"><i class="fas fa-eye-slash"></i> Streamproof</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-globe"></i> Language</span><select><option>English</option><option>Vietnamese</option><option>Chinese</option></select></div>
+        <div class="setting"><span class="label"><i class="fas fa-microphone-alt"></i> Enable silent mode</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting"><span class="label"><i class="fas fa-save"></i> Save settings</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+        <div class="setting" style="border-bottom:none;"><span class="label"><i class="fas fa-upload"></i> Load settings</span><div class="toggle" onclick="toggle(this)"><div class="dot"></div></div></div>
+    </div>
+
+</div>
+
+<script>
+    // ===== TOGGLE =====
+    function toggle(el) {
+        el.classList.toggle('active');
+    }
+
+    // ===== CHECKBOX =====
+    function toggleCheck(el) {
+        el.classList.toggle('active');
+        const icon = el.querySelector('i');
+        if (icon) {
+            icon.className = el.classList.contains('active') ? 'fas fa-check' : 'fas';
+        }
+    }
+
+    // ===== TABS =====
+    document.querySelectorAll('.tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-' + this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // ===== THEME / ĐỔI MÀU =====
+    function setTheme(el) {
+        const color = el.dataset.color;
+        document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('menuContainer').style.setProperty('--accent', color);
+        // Cập nhật border shadow
+        document.querySelector('.menu').style.borderColor = color;
+        document.querySelector('.menu').style.boxShadow = '0 20px 60px ' + color + '33';
+        // Cập nhật các toggle đang active
+        document.querySelectorAll('.toggle.active').forEach(t => {
+            t.style.boxShadow = '0 0 14px ' + color;
+        });
+    }
+
+    // ===== SLIDER (cho Visuals) =====
+    document.querySelectorAll('#panel-visuals input[type="range"]').forEach(slider => {
+        slider.addEventListener('input', function() {
+            const val = parseFloat(this.value).toFixed(1);
+            const next = this.nextElementSibling;
+            if (next && next.classList.contains('slider-val')) {
+                const unit = next.querySelector('.unit')?.textContent || '';
+                next.innerHTML = val + '<span class="unit">' + unit + '</span>';
+            }
+        });
+    });
+
+    // ===== Mặc định theme =====
+    document.getElementById('menuContainer').style.setProperty('--accent', '#00e5ff');
+</script>
+
+</body>
+</html>
